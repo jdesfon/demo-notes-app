@@ -12,7 +12,7 @@ export const main = handler(async (event: APIGatewayProxyEvent) => {
         //   partition key
         KeyConditionExpression: "userId = :userId",
         ExpressionAttributeValues: {
-            ":userId": "123",
+            ":userId": event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
           },
     }
 

@@ -3,13 +3,14 @@ import { StorageStack } from './StorageStack'
 
 export function ApiStack({ stack }: StackContext) {
     const { table } = use(StorageStack)
-    
+
     // Create the API
     const api = new Api(stack, "Api", {
         defaults: {
             function: {
                 bind: [table]
-            }
+            },
+            authorizer: 'iam',
         },
         routes: {
             "GET /notes/{id}": "packages/functions/src/get.main",
@@ -24,7 +25,7 @@ export function ApiStack({ stack }: StackContext) {
     stack.addOutputs({
         ApiEndpoint: api.url,
     })
-    
+
     // Return the API resource
     return {
         api
